@@ -19,8 +19,11 @@ object homework_2 {
         }._2
 
         val allWhite = (1 to tries).foldLeft(List[Balls]()){
-            case (acc, _) => acc :+ getSecondBall(bin)
-        }.filter { e => e == White }.size
+            case (acc, _) => getSecondBall(bin) match {
+                case x if x == White => acc :+ x
+                case _ => acc
+            }
+        }.size
 
         1.toDouble - (tries.toDouble - allWhite.toDouble) / tries.toDouble
     }
