@@ -7,8 +7,6 @@ case object White extends Balls
 case object Black extends Balls
 case object Unknown extends Balls
 
-case class Bin(b: List[Balls])
-
 object homework_2 {
     def findprobability(bin: List[Balls], bintries: Int = 2, tries: Int = 10000): Double = {
         val getSecondBall: List[Balls] => Balls = list => (1 to bintries).foldLeft[(List[(Balls, Int)], Balls)]((list.zipWithIndex, Unknown)){
