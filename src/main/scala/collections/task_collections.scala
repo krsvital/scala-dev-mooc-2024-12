@@ -69,10 +69,10 @@ object task_collections {
    * и вернёт уникальный список машин обслуживающихся в первом дилерском центре и не обслуживающимся во втором
    **/
   def filterAllLeftDealerAutoWithoutRight(dealerOne: Iterable[Auto], dealerTwo: Iterable[Auto]): Iterable[Auto] = {
-    val map = dealerTwo.map(e => (e.mark+e.model, true)).toMap
+    val map = dealerTwo.map(e => (e, true)).toMap
 
     dealerOne.foldLeft(Set[Auto]()){
-      case (acc, el) => map.exists(p => p._1 == el.mark+el.model) match {
+      case (acc, el) => map.exists(p => p._1 equals el) match {
         case true => acc
         case false => acc + el
       }
