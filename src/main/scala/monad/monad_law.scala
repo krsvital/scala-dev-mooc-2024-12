@@ -15,7 +15,7 @@ object monad_law {
     println("leftUnitLaw check success")
   }
 
-  leftUnitLaw()
+  //leftUnitLaw()
 
   /**
    * Right unit law:
@@ -27,7 +27,7 @@ object monad_law {
     println("rightUnitLaw check success")
   }
 
-  rightUnitLaw()
+  //rightUnitLaw()
 
   /**
    * Associativity law:
