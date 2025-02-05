@@ -25,11 +25,11 @@ object task_futures_sequence {
                      (implicit ex: ExecutionContext): Future[(List[A], List[Throwable])] = {
     val promise = Promise[(List[A], List[Throwable])]()
 
-    def loop(promises: List[Promise[Try[A]]], res: (List[A], List[Throwable]) = (List[A](), List[Throwable]())): Unit = {
+    def loop(promises: List[Future[Try[A]]], res: (List[A], List[Throwable]) = (List[A](), List[Throwable]())): Unit = {
       promises match {
         case Nil => promise.success(res)
         case head :: next => head.isCompleted match {
-          case true => head.future.value.get.get match {
+          case true => head.value.get.get match {
             case Failure(exception) => loop(next, (res._1, exception :: res._2))
             case Success(value) => loop(next, (value :: res._1, res._2))
           }
@@ -40,13 +40,13 @@ object task_futures_sequence {
 
     Future(
       loop(
-        futures.foldLeft(List[Promise[Try[A]]]()){
+        futures.foldLeft(List[Future[Try[A]]]()){
           case (list, f) => {
             val p = Promise[Try[A]]()
             f.onComplete { fp =>
               p.success(fp)
             }
-            p :: list
+            p.future :: list
           }
         }
       )
