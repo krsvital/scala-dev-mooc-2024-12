@@ -3,6 +3,8 @@ package ru.otus.module1.futures
 import ru.otus.module1.futures.HomeworksUtils.TaskSyntax
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Promise
+import scala.util.{ Failure, Success, Try }
 
 object task_futures_sequence {
 
@@ -20,7 +22,37 @@ object task_futures_sequence {
    * @return асинхронную задачу с кортежом из двух списков
    */
   def fullSequence[A](futures: List[Future[A]])
-                     (implicit ex: ExecutionContext): Future[(List[A], List[Throwable])] =
-    task"Реализуйте метод `fullSequence`" ()
+                     (implicit ex: ExecutionContext): Future[(List[A], List[Throwable])] = {
+    val promise = Promise[(List[A], List[Throwable])]()
+
+    def loop(list: List[Future[Try[A]]], res: (List[A], List[Throwable]) = (List[A](), List[Throwable]())): Unit = {
+      list match {
+        case Nil => promise.success(res)
+        case head :: next => head.isCompleted match {
+          case true => head.value.get.get match {
+            case Failure(exception) => loop(next, (res._1, exception :: res._2))
+            case Success(value) => loop(next, (value :: res._1, res._2))
+          }
+          case false => loop(list, res)
+        }
+      }
+    }
+
+    Future(
+      loop(
+        futures.foldLeft(List[Future[Try[A]]]()){
+          case (list, f) => {
+            val p = Promise[Try[A]]()
+            f.onComplete { fp =>
+              p.success(fp)
+            }
+            p.future :: list
+          }
+        }
+      )
+    )
+
+    promise.future
+  }
 
 }
