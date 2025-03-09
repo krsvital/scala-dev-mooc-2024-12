@@ -1,11 +1,3 @@
+ThisBuild / version := "0.1.0-SNAPSHOT"
 
-scalaVersion := "2.13.16"
-
-
-name := "scala-dev-mooc-2024-12"
-organization := "ru.otus"
-version := "1.0"
-
-libraryDependencies += Dependencies.ScalaTest
-libraryDependencies += Dependencies.CatsCore
-libraryDependencies += Dependencies.ZIO
+ThisBuild / scalaVersion := "3.6.3"
