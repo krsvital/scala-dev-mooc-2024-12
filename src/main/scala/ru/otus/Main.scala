@@ -7,9 +7,26 @@ import ru.otus.module3.functional_effects.functionalProgram
 
 import scala.util.{Failure, Success}
 
+import ru.otus.module2.catsHomework._
+import cats._
+import cats.implicits._
+
 object Main {
 
   def main(args: Array[String]): Unit = {
+
+    val result_1 = Functor[Tree].map(t2_1){ item =>
+      s"Item to string: ${item}"
+    }
+
+    println(result_1)
+
+    val result_2 = Functor[Tree].map(t2_2){ item =>
+      s"String as IntArray: ${item.toCharArray().map(_.toInt).mkString(",")}"
+    }
+
+    println(result_2)
+
 
 //      println(s"Hello " +
 //        s"from ${Thread.currentThread().getName}")
