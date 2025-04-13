@@ -1,8 +1,7 @@
 package ru.otus.module3.zio_homework
 
-import zio.{Scope, ZIO, ZIOAppArgs, ZIOAppDefault}
+import zio.{ZLayer, Scope, ZIO, ZIOAppArgs, ZIOAppDefault, Console, Random}
 
 object ZioHomeWorkApp extends ZIOAppDefault{
-  override def run: ZIO[Any with ZIOAppArgs with Scope, Any, Any] = ???
-
-}
+  override def run = runApp
+} 
