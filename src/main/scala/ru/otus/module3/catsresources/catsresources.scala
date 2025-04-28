@@ -102,45 +102,45 @@ object TestClock extends App {
 
 // Sync
 
-object ReadFile extends IOApp.Simple {
-  def readFile: IO[String] = IO.blocking(scala.io.Source.fromFile("some_file.txt").mkString)
-
-  val program =  for {
-    content <- readFile
-    _ <- IO.println("safd")
-  } yield()
-
-  override def run: IO[Unit] = program
-
-}
+//object ReadFile extends IOApp.Simple {
+//  def readFile: IO[String] = IO.blocking(scala.io.Source.fromFile("some_file.txt").mkString)
+//
+//  val program =  for {
+//    content <- readFile
+//    _ <- IO.println("safd")
+//  } yield()
+//
+//  override def run: IO[Unit] = program
+//
+//}
 
 // spawn
-import cats.effect.{IO, Spawn}
+//import cats.effect.{IO, Spawn}
 
-val task: IO[Int] = IO.sleep(1.second) *> IO.pure(42)
-
-val program = for {
-  fiber <- task.start
-  result <- fiber.join
-} yield ()
-
-
-val fastTask = IO.sleep(500.millis) *> IO.pure(42)
-val slowTask = IO.sleep(1.second) *> IO.pure(42)
-
-val raceResult = for {
-  result <- fastTask.race(slowTask)
-} yield ()
+//val task: IO[Int] = IO.sleep(1.second) *> IO.pure(42)
+//
+//val program = for {
+//  fiber <- task.start
+//  result <- fiber.join
+//} yield ()
+//
+//
+//val fastTask = IO.sleep(500.millis) *> IO.pure(42)
+//val slowTask = IO.sleep(1.second) *> IO.pure(42)
+//
+//val raceResult = for {
+//  result <- fastTask.race(slowTask)
+//} yield ()
 
 
 // Concurrent
 //Temporal
 
-val asynctask: IO[Int] = IO.async_ {callback =>
-  new Thread(new Runnable{
-    def run(): Unit = {
-      callback(Right(52))
-    }
-  }).start()
-}
+//val asynctask: IO[Int] = IO.async_ {callback =>
+//  new Thread(new Runnable{
+//    def run(): Unit = {
+//      callback(Right(52))
+//    }
+//  }).start()
+//}
 

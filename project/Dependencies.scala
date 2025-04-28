@@ -11,6 +11,10 @@ object Dependencies {
                      "dev.zio" %% "zio-test" % ZioVersion  % Test,
                      "dev.zio" %% "zio-test-sbt" % ZioVersion  % Test,
                      "dev.zio" %% "zio-test-magnolia" % ZioVersion % Test)
+  lazy val ZIOHttpVersion = "1.0.0.0-RC27"
+  lazy val LiquibaseVersion = "3.4.2"
+  lazy val PostgresVersion = "42.3.1"
+  lazy val LogbackVersion = "1.2.3"
 
   lazy val fs2: Seq[ModuleID] = Seq(
     "co.fs2" %% "fs2-core" % "3.6.1",
@@ -38,5 +42,21 @@ object Dependencies {
     "org.http4s" %% "http4s-circe" % "0.23.14"
   )
 
+  lazy val zioHttp = "io.d11" %% "zhttp" % ZIOHttpVersion
+
+  lazy val quill = Seq(
+    "io.getquill"          %% "quill-jdbc-zio" % "4.8.5"
+  )
+
+  lazy val liquibase = "org.liquibase" % "liquibase-core" % LiquibaseVersion
+
+  lazy val  testContainers = Seq(
+    "com.dimafeng" %% "testcontainers-scala-postgresql" % "0.39.12"  % Test,
+    "com.dimafeng" %% "testcontainers-scala-scalatest" % "0.39.12"  % Test
+  )
+
+  lazy val postgres = "org.postgresql" % "postgresql" % PostgresVersion
+
+  lazy val logback = "ch.qos.logback"  %  "logback-classic" % LogbackVersion
 
 }
