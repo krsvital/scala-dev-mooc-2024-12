@@ -59,19 +59,19 @@ object catsTypeClasses{
 
   // Задача мержа 2-х Map
 
-   val m1 = Map("a" -> 1, "b" -> 2)
-   val m2 = Map("b" -> 3, "c" -> 4)
-   // val m3 = m1 merge m2 // Map("a" -> 1, "b" -> 5, "c" -> 4)
-
-  def optCombine[V : Semigroup](v: V, optV: Option[V]): V =
-    optV.map(v2 => Semigroup[V].combine(v, v2)).getOrElse(v)
-
-  def merge[K, V: Semigroup](lhs: Map[K, V], rhs: Map[K, V]): Map[K, V] =
-    lhs.foldLeft(rhs){ case (acc, (k, v)) =>
-      acc.updated(k, optCombine(v, acc.get(k)))
-    }
-
-  println(merge(m1, m2).show)
+//   val m1 = Map("a" -> 1, "b" -> 2)
+//   val m2 = Map("b" -> 3, "c" -> 4)
+//   // val m3 = m1 merge m2 // Map("a" -> 1, "b" -> 5, "c" -> 4)
+//
+//  def optCombine[V : Semigroup](v: V, optV: Option[V]): V =
+//    optV.map(v2 => Semigroup[V].combine(v, v2)).getOrElse(v)
+//
+//  def merge[K, V: Semigroup](lhs: Map[K, V], rhs: Map[K, V]): Map[K, V] =
+//    lhs.foldLeft(rhs){ case (acc, (k, v)) =>
+//      acc.updated(k, optCombine(v, acc.get(k)))
+//    }
+//
+//  println(merge(m1, m2).show)
 
   // Monoid
 
@@ -90,10 +90,10 @@ object catsTypeClasses{
 //    def apply[A](implicit ev: Monoid[A]): Monoid[A] = ev
 //  }
 
-  def combineAll[A: Monoid](list: List[A]): A =
-    list.foldLeft(Monoid[A].empty)(Monoid[A].combine)
-
-  println(combineAll(List(2, 2, 3)))
+//  def combineAll[A: Monoid](list: List[A]): A =
+//    list.foldLeft(Monoid[A].empty)(Monoid[A].combine)
+//
+//  println(combineAll(List(2, 2, 3)))
 
   // Functor
 
@@ -101,12 +101,77 @@ object catsTypeClasses{
 //    def map[A, B](fa: F[A])(f: A => B): F[B]
 //  }
 
+//  def doMath[F[_] : Functor](start: F[Int]): F[Int] =
+//    start.map(n => n + 1 * 2)
+//
+//  println(doMath(Option(2)))
+//  println(doMath(List(2, 3, 4)))
+  // Semigroup
+
+  //  trait Semigroup[T]{
+  //    def combine(a: T, b: T): T
+  //  }
+  //
+  //  object Semigroup{
+  //    def apply[A](implicit ev: Semigroup[A]) = ev
+  //
+  //    implicit val intSemigroup: Semigroup[Int] = (a, b) => a + b
+  //  }
+  //
+  //  val s1 = Semigroup[Int].combine(2, Semigroup[Int].combine(3, 5))
+  //  val s2 = Semigroup[Int].combine(Semigroup[Int].combine(2, 3), 5)
+  //  println(s1)
+  //  println(s2)
+
+  // Задача мержа 2-х Map
+
+//  val m1 = Map("a" -> 1, "b" -> 2)
+//  val m2 = Map("b" -> 3, "c" -> 4)
+  // val m3 = m1 merge m2 // Map("a" -> 1, "b" -> 5, "c" -> 4)
+
+//  def optCombine[V : Semigroup](v: V, optV: Option[V]): V =
+//    optV.map(v2 => Semigroup[V].combine(v, v2)).getOrElse(v)
+//
+//  def merge[K, V: Semigroup](lhs: Map[K, V], rhs: Map[K, V]): Map[K, V] =
+//    lhs.foldLeft(rhs){ case (acc, (k, v)) =>
+//      acc.updated(k, optCombine(v, acc.get(k)))
+//    }
+//
+//  println(merge(m1, m2).show)
+
+  // Monoid
+
+  //  trait Monoid[T]{
+  //    def combine(a: T, b: T): T
+  //    def empty: T
+  //  }
+
+  //  implicit val intMonoid = new Monoid[Int] {
+  //    override def combine(a: Int, b: Int): Int = a + b
+  //
+  //    override def empty: Int = 0
+  //  }
+  //
+  //  object Monoid{
+  //    def apply[A](implicit ev: Monoid[A]): Monoid[A] = ev
+  //  }
+
+  def combineAll[A: Monoid](list: List[A]): A =
+    list.foldLeft(Monoid[A].empty)(Monoid[A].combine)
+
+  println(combineAll(List(2, 2, 3)))
+
+  // Functor
+
+  //  trait Functor[F[_]]{
+  //    def map[A, B](fa: F[A])(f: A => B): F[B]
+  //  }
+
   def doMath[F[_] : Functor](start: F[Int]): F[Int] =
     start.map(n => n + 1 * 2)
 
   println(doMath(Option(2)))
   println(doMath(List(2, 3, 4)))
-
   val f1: Int => String = i => (i * 2).toString
   val f2: String => Unit = println
 

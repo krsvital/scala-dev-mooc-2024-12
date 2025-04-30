@@ -192,7 +192,7 @@ object zioScope{
    * Использование ресурсов
    */
 
-  val fileCombined = file1 zip file2
+  val fileCombined: ZIO[Any with Scope, Throwable, (BufferedSource, BufferedSource)] = file1 zip file2
 
   /**
    * Написать эффект, который воспользуется ф-ей handleFile из блока про bracket
