@@ -64,8 +64,8 @@ object Dependencies {
     "io.circe" %% "circe-core" % CirceVersion,
     "io.circe" %% "circe-generic" % CirceVersion,
     "io.circe" %% "circe-parser" % CirceVersion,
-    "io.circe" %% "circe-derivation" % "0.13.0-M4",
-    "org.http4s" %% "http4s-circe" % "0.23.14"
+    //"io.circe" %% "circe-derivation" % "0.13.0-M4",
+    //"org.http4s" %% "http4s-circe" % "0.23.14"
   )
 
   lazy val zioHttp = "io.d11" %% "zhttp" % ZIOHttpVersion

@@ -1,9 +1,9 @@
 package ru.otus
 
-import ru.otus.module1.{future, hof, threads, type_system}
-import ru.otus.module2.{catsTypeClasses, dataStructures, functional, transformers, validation}
-import ru.otus.module2.implicits.{implicit_conversions, implicit_scopes}
-import ru.otus.module3.functional_effects.functionalProgram
+// import ru.otus.module1.{future, hof, threads, type_system}
+// import ru.otus.module2.{catsTypeClasses, dataStructures, functional, transformers, validation}
+// import ru.otus.module2.implicits.{implicit_conversions, implicit_scopes}
+// import ru.otus.module3.functional_effects.functionalProgram
 
 import scala.util.{Failure, Success}
 

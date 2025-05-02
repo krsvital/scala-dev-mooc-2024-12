@@ -2,6 +2,7 @@ package module4
 
 import com.dimafeng.testcontainers.PostgreSQLContainer
 import zio.{Scope, ULayer, ZIO, ZLayer}
+import org.testcontainers.utility.DockerImageName
 
 
 object TestContainer {

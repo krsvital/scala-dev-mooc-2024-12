@@ -1,6 +1,8 @@
 package ru.otus.module4.homework.dao.entity
 
-case class Role(code: String, name: String)
+import java.util.UUID
+
+case class Role(code: String, name: String, id: String = UUID.randomUUID().toString)
 
 case class User(
     id: String,

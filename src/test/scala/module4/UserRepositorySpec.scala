@@ -16,7 +16,7 @@ object UserRepositorySpec extends ZIOSpecDefault {
   val dc = DBTransactor.Ctx
 
 
-  val genName: Gen[Random with Sized, String] = Gen.asciiString
+  val genName: Gen[Random & Sized, String] = Gen.asciiString
   val genAge: Gen[Random, Int] = Gen.int(18, 120)
   val genUuid: Gen[Random, UUID] = Gen.uuid
 

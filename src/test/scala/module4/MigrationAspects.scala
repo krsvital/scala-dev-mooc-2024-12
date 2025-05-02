@@ -19,7 +19,7 @@ object MigrationAspects {
 object LiquibaseService {
   def performMigration: RIO[Liquibase, Unit] = ZIO.serviceWith[Liquibase](_.update("dev"))
 
-  def mkLiquibase(): ZIO[Any with Scope with DataSource, Throwable, Liquibase] = for {
+  def mkLiquibase(): ZIO[Any & Scope & DataSource, Throwable, Liquibase] = for {
     ds <- ZIO.service[DataSource]
     fileAccessor <- ZIO.attempt(new FileSystemResourceAccessor())
     classLoader <- ZIO.attempt(classOf[LiquibaseService].getClassLoader)

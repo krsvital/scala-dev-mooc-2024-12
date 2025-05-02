@@ -7,7 +7,7 @@ import io.getquill.util.LoadConfig
 import liquibase.Liquibase
 import liquibase.database.jvm.JdbcConnection
 import liquibase.resource.{ClassLoaderResourceAccessor, CompositeResourceAccessor, FileSystemResourceAccessor}
-import ru.otus.module4.phoneBook.configuration.Configuration
+import ru.otus.module4.homework.configuration.Configuration
 import zio.{Scope, ULayer, ZIO, ZLayer}
 
 import javax.sql.DataSource
@@ -20,10 +20,7 @@ package object db {
 
   def hikariDS: HikariDataSource = new JdbcContextConfig(LoadConfig("db")).dataSource
 
-  val zioDS: ZLayer[Any, Throwable, DataSource] = 
-    ZioJdbc.DataSourceLayer.fromDataSource(hikariDS)
-
-
+  val zioDS: ZLayer[Any, Throwable, DataSource] = ZLayer.succeed(hikariDS)
 
   object LiquibaseService {
 
@@ -48,7 +45,7 @@ package object db {
     } yield liqui)
 
 
-    def performMigration: ZIO[LiquibaseService with Liquibase, Throwable, Unit]  = ZIO.serviceWithZIO[LiquibaseService](_.performMigration)
+    def performMigration: ZIO[LiquibaseService & Liquibase, Throwable, Unit]  = ZIO.serviceWithZIO[LiquibaseService](_.performMigration)
 
     val liquibase: ZLayer[DataSource, Throwable, Liquibase] = ZLayer.fromZIO(mkLiquibase())
 
