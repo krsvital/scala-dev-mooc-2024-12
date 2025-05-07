@@ -57,7 +57,7 @@ object Dependencies {
     "org.http4s" %% "http4s-dsl" % "0.23.18",
     "org.http4s" %% "http4s-ember-server" % "0.23.18",
     "org.http4s" %% "http4s-ember-client" % "0.23.18",
-
+    "com.alejandrohdezma" %% "http4s-munit" % "1.1.0" % Test
   )
 
   lazy val circe = Seq(
