@@ -16,7 +16,6 @@ import scala.util.{ Try, Success, Failure }
 import scala.concurrent.duration._
 
 import fs2.Stream
-import fansi.ErrorMode.Throw
 
 object http4s_homework {
     case class Count(counter: Int)
