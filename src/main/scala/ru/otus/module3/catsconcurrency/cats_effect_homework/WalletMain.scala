@@ -1,4 +1,4 @@
-/*package ru.otus.module3.catsconcurrency.cats_effect_homework
+package ru.otus.module3.catsconcurrency.cats_effect_homework
 
 import cats.effect.{IO, IOApp}
 import cats.implicits._
@@ -15,4 +15,3 @@ object WalletMain extends IOApp.Simple {
     } yield ()
 
 }
-*/

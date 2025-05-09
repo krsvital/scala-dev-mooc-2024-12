@@ -1,7 +1,9 @@
-/*package ru.otus.module3.catsconcurrency.cats_effect_homework
+package ru.otus.module3.catsconcurrency.cats_effect_homework
 
 import cats.effect.{IO, IOApp}
 import cats.implicits._
+import scala.concurrent.duration._
+import cats.effect.kernel.Fiber
 
 // Поиграемся с кошельками на файлах и файберами.
 
@@ -16,16 +18,38 @@ import cats.implicits._
 
 // Подсказка: чтобы сделать бесконечный цикл на IO достаточно сделать рекурсивный вызов через flatMap:
 // def loop(): IO[Unit] = IO.println("hello").flatMap(_ => loop())
-object WalletFibersApp extends IOApp.Simple {
 
+object WalletFibersApp extends IOApp.Simple {
   def run: IO[Unit] =
     for {
-      _ <- IO.println("Press any key to stop...")
+      _ <- IO.println("Press 'exit' to stop...")
       wallet1 <- Wallet.fileWallet[IO]("1")
       wallet2 <- Wallet.fileWallet[IO]("2")
       wallet3 <- Wallet.fileWallet[IO]("3")
+      fiber1  <- process(wallet1.topup(100), 100.milliseconds).start
+      fiber2  <- process(wallet2.topup(100), 500.milliseconds).start
+      fiber3  <- process(wallet3.topup(100), 2000.milliseconds).start
+      fiber4  <- process(printBalance(wallet1, wallet2, wallet3), 1000.milliseconds).start
+      _       <- process(readStdIn(fiber1, fiber2, fiber3, fiber4), 0.milliseconds).handleError{ e => println(e.getMessage()) }
       // todo: запустить все файберы и ждать ввода от пользователя чтобы завершить работу
     } yield ()
 
+    def process(computation: IO[Unit], delay: FiniteDuration): IO[Unit] =
+      computation.flatMap(_ => process(computation, delay).delayBy(delay))
+    
+    def readStdIn(fiber: Fiber[IO,Throwable,Unit]*): IO[Unit] =
+      IO.readLine.flatMap { line =>
+        line match {
+          case "exit" => fiber.forallM[IO] { f => f.cancel.as[Boolean](true) } *> IO.raiseError(new Throwable("Process stoped"))
+          case _ => IO.unit
+        }
+      }
+
+    def printBalance(wallet: Wallet[IO]*): IO[Unit] = IO.unit.flatMap{ _ => wallet.forallM[IO] { w =>
+      for {
+          cur <- w.balance
+          _   <- IO.println(s"${w.getId} => ${cur}")
+        } yield true
+      } *> IO.unit
+    }
 }
-*/
